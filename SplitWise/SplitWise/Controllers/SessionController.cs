@@ -26,19 +26,19 @@ namespace SplitWise.Controllers
         {
             GeneralAPIResponseBody responseBody;
             var userId = loginRequestBody.UserId;
-            var accessToken = loginRequestBody.FbToken;
+            var fbToken = loginRequestBody.FbToken;
 
-            if (String.IsNullOrEmpty(userId) || String.IsNullOrEmpty(accessToken))
+            if (!(userId > 0) || String.IsNullOrEmpty(fbToken))
             {
                 Response.StatusCode = 400;
                 responseBody =
-                    String.IsNullOrEmpty(userId) ?
+                    !(userId > 0) ?
                     new ErrorResponseBody("user id is missing!") :
                     new ErrorResponseBody("es_token is missing!");
             }
-            else if (await _userServices.LoginRequestIsValid(userId, accessToken))
+            else if (await _userServices.LoginRequestIsValid(userId, fbToken))
             {
-                await _userServices.UpdateUser(userId, accessToken);
+                await _userServices.UpdateUser(userId, fbToken);
                 responseBody = new TokenResponseBody(_userServices.GetTokenOf(userId));
                
             }

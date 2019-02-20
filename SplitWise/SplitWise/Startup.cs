@@ -30,6 +30,7 @@ namespace SplitWise
         {
             services.AddDbContext<SplitWiseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SplitWiseContextMSSqlDb")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<UserServices>();
 
         }
 
